@@ -40,6 +40,7 @@ go-microservice-template/
 │   ├── models.go              # Shared data models
 │   └── response.go            # Common response utilities
 ├── scripts/                   # Utility scripts (if any)
+├── Makefile                   # Makefile for build automation
 ├── go.mod
 ├── go.sum
 ├── LICENSE
