@@ -12,5 +12,6 @@ func RouterHandler(server rest.Server) rest.Server {
 	})
 
 	server.Get("/users", handler.UsersHandler)
+	server.Get("/concurrency-demo", handler.ConcurrencyDemoHandler)
 	return server
 }
