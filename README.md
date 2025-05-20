@@ -153,7 +153,15 @@ Follow these steps to quickly build your own microservice using this template:
 
 10. **Testing**
 
-    Add your tests alongside your code or in a dedicated `test/` directory (create if needed).
+    The template includes example test cases for both the repository and response utility layers:
+    - `internal/repository/repository_test.go` tests the `GetUsers` function, ensuring correct user data is returned.
+    - `pkg/response_test.go` tests the `ResponseJSON` utility, verifying status code, headers, and JSON output.
+
+    Add your own tests alongside your code or in a dedicated `test/` directory (create if needed). To run all tests:
+
+    ```sh
+    go test ./...
+    ```
 
 ---
 
