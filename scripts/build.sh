@@ -1,11 +1,16 @@
 #!/bin/sh
-# Build the Go microservice binary and Docker image
 set -e
 
-# Move to project root
-cd "$(dirname "$0")/.."
+# Check if version argument is provided
+if [ -z "$1" ]; then
+  echo "Usage: $0 <version>"
+  exit 1
+fi
 
-echo "Building Docker image..."
-docker build -t go-microservice-template:latest .
+VERSION=$1
+IMAGE_NAME="<<microservice_name>>"
 
-echo "Docker image build complete: go-microservice-template:latest"
+echo "Building Docker image: $IMAGE_NAME:$VERSION and $IMAGE_NAME:latest"
+docker build -t $IMAGE_NAME:$VERSION -t $IMAGE_NAME:latest .
+
+echo "Docker image built: $IMAGE_NAME:$VERSION and $IMAGE_NAME:latest"
