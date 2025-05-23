@@ -11,8 +11,20 @@ A standard template for building microservices in Go.
 - [Key Features](#key-features)
 - [Getting Started](#getting-started)
 - [Usage Guidelines](#usage-guidelines)
+- [Testing](#testing)
+- [CI/CD Workflow](#cicd-workflow)
 - [Example: Concurrency Endpoint](#example-concurrency-endpoint)
 - [License](#license)
+
+---
+
+## Key Features
+
+- **Layered architecture**: Clean separation between API, service, and repository layers.
+- **REST API**: Easily extendable REST server with route and handler organization.
+- **Reusable utilities**: Common response helpers and models in `pkg/`.
+- **Lifecycle management**: Uses a component manager for clean startup/shutdown.
+- **Concurrency Example**: Demonstrates Go's concurrency with a dedicated endpoint.
 
 ---
 
@@ -20,6 +32,9 @@ A standard template for building microservices in Go.
 
 ```text
 go-microservice-template/
+├── .github/
+│   └── workflows/
+│       └── build_adn_test.yml # GitHub Actions CI workflow
 ├── cmd/
 │   └── main.go                # Entry point of the application
 ├── internal/
@@ -33,19 +48,26 @@ go-microservice-template/
 │   ├── app/
 │   │   └── app.go             # Application lifecycle management
 │   ├── repository/
-│   │   └── repository.go      # Data access layer
+│   │   ├── repository.go      # Data access layer
+│   │   └── repository_test.go # Repository tests
 │   └── service/
 │       └── service.go         # Business logic layer
 ├── pkg/
 │   ├── models.go              # Shared data models
-│   └── response.go            # Common response utilities
+│   ├── response.go            # Common response utilities
+│   └── response_test.go       # Response utility tests
 ├── scripts/                   # Utility scripts (if any)
+│   ├── build.sh
+│   └── docker-compose.yml
 ├── Makefile                   # Makefile for build automation
+├── Dockerfile                 # Docker build file
 ├── go.mod
 ├── go.sum
 ├── LICENSE
 └── README.md
 ```
+
+---
 
 ## Dependency Diagram
 
@@ -62,13 +84,7 @@ graph TD
     G --> I[pkg/models.go]
 ```
 
-## Key Features
-
-- **Layered architecture**: Clean separation between API, service, and repository layers.
-- **REST API**: Easily extendable REST server with route and handler organization.
-- **Reusable utilities**: Common response helpers and models in `pkg/`.
-- **Lifecycle management**: Uses a component manager for clean startup/shutdown.
-- **Concurrency Example**: Demonstrates Go's concurrency with a dedicated endpoint.
+---
 
 ## Getting Started
 
@@ -152,17 +168,72 @@ Follow these steps to quickly build your own microservice using this template:
    - Use the `pkg/` directory for shared utilities and types.
    - Add scripts to the `scripts/` directory for automation or setup tasks.
 
-10. **Testing**
+---
 
-    The template includes example test cases for both the repository and response utility layers:
-    - `internal/repository/repository_test.go` tests the `GetUsers` function, ensuring correct user data is returned.
-    - `pkg/response_test.go` tests the `ResponseJSON` utility, verifying status code, headers, and JSON output.
+## Testing
 
-    Add your own tests alongside your code or in a dedicated `test/` directory (create if needed). To run all tests:
+The template includes example test cases for both the repository and response utility layers:
 
-    ```sh
-    go test ./...
-    ```
+- `internal/repository/repository_test.go` tests the `GetUsers` function, ensuring correct user data is returned.
+- `pkg/response_test.go` tests the `ResponseJSON` utility, verifying status code, headers, and JSON output.
+
+Add your own tests alongside your code or in a dedicated `test/` directory (create if needed). To run all tests:
+
+```sh
+go test ./...
+```
+
+---
+
+## CI/CD Workflow
+
+This project includes a GitHub Actions workflow for continuous integration. The workflow automatically runs on every push and pull request to the `main` branch. It performs the following steps:
+
+- **Checkout code**: Retrieves the latest code from the repository.
+- **Set up Go**: Configures the Go environment.
+- **Install dependencies**: Runs `go mod tidy` to ensure dependencies are up to date.
+- **Run tests**: Executes all unit tests using `go test ./...`.
+- **Lint code**: Optionally runs `golangci-lint` to check for code quality issues.
+
+**Workflow file location:** `.github/workflows/ci.yml`
+
+**Example workflow configuration:**
+
+```yaml
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Install dependencies
+        run: go mod tidy
+
+      - name: Run tests
+        run: go test ./...
+
+      - name: Lint
+        uses: golangci/golangci-lint-action@v4
+        with:
+          version: v1.56
+```
+
+You can customize the workflow as needed for your project.
 
 ---
 
