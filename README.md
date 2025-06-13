@@ -34,33 +34,43 @@ A standard template for building microservices in Go.
 go-microservice-template/
 ├── .github/
 │   └── workflows/
-│       └── build_adn_test.yml # GitHub Actions CI workflow
+│       └── ci.yml                   # GitHub Actions CI workflow
 ├── cmd/
-│   └── main.go                # Entry point of the application
+│   └── main.go                      # Entry point of the application
 ├── internal/
 │   ├── api/
 │   │   └── rest/
-│   │       ├── rest.go        # REST server setup
+│   │       ├── rest.go              # REST server setup
 │   │       ├── handler/
-│   │       │   └── handler.go # HTTP handlers
+│   │       │   ├── handler.go       # HTTP handlers
+│   │       │   └── users_handler.go # Users endpoint handler
 │   │       └── router/
-│   │           └── router.go  # Route definitions
+│   │           └── router.go        # Route definitions
 │   ├── app/
-│   │   └── app.go             # Application lifecycle management
+│   │   └── app.go                   # Application lifecycle management
+│   ├── config/
+│   │   └── config.go                # Configuration management
 │   ├── repository/
-│   │   ├── repository.go      # Data access layer
-│   │   └── repository_test.go # Repository tests
+│   │   ├── repository.go            # Data access layer
+│   │   ├── repository_manager.go    # Repository manager
+│   │   ├── users_repo.go            # Users repository interface
+│   │   ├── connections/
+│   │   │   └── conn_manager.go      # Connection manager
+│   │   ├── postgres/
+│   │   │   ├── pkg.go               # Postgres package utilities
+│   │   │   ├── repository.go        # Postgres repository base
+│   │   │   └── users_repo_impl.go   # Postgres users repository implementation
 │   └── service/
-│       └── service.go         # Business logic layer
+│       └── users_svc.go             # Business logic layer for users
 ├── pkg/
-│   ├── models.go              # Shared data models
-│   ├── response.go            # Common response utilities
-│   └── response_test.go       # Response utility tests
-├── scripts/                   # Utility scripts (if any)
+│   ├── models.go                    # Shared data models
+│   ├── response.go                  # Common response utilities
+│   └── response_test.go             # Response utility tests
+├── scripts/                         # Utility scripts (if any)
 │   ├── build.sh
 │   └── docker-compose.yml
-├── Makefile                   # Makefile for build automation
-├── Dockerfile                 # Docker build file
+├── Makefile                         # Makefile for build automation
+├── Dockerfile                       # Docker build file
 ├── go.mod
 ├── go.sum
 ├── LICENSE
