@@ -33,12 +33,14 @@ type Repository struct {
 }
 
 type System struct {
-	Host        string `yaml:"host"`
-	Port        int    `yaml:"port"`
-	Name        string `yaml:"name"`
-	Version     string `yaml:"version"`
-	Description string `yaml:"description"`
-	Timezone    string `yaml:"timezone"`
+	Host         string `yaml:"host"`
+	Port         int    `yaml:"port"`
+	ReadTimeout  int    `yaml:"read_timeout"`  // Read timeout in seconds
+	WriteTimeout int    `yaml:"write_timeout"` // Write timeout in seconds
+	Name         string `yaml:"name"`
+	Version      string `yaml:"version"`
+	Description  string `yaml:"description"`
+	Timezone     string `yaml:"timezone"`
 }
 
 type Config struct {
