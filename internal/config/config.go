@@ -43,8 +43,23 @@ type System struct {
 	Timezone     string `yaml:"timezone"`
 }
 
+type CacheConfig struct {
+	Host     string `yaml:"host"`     // Cache host address
+	Port     int    `yaml:"port"`     // Cache port number
+	Password string `yaml:"password"` // Cache password (if required)
+	Db       int    `yaml:"db"`       // Cache database number
+	Ttl      int    `yaml:"ttl"`      // Time to live for cache entries in seconds
+}
+
+type Cache struct {
+	Enabled bool        `yaml:"enabled"` // Whether caching is enabled
+	Type    string      `yaml:"type"`    // Type of cache (e.g., "redis", "memory")
+	Config  CacheConfig `yaml:"config"`  // Additional cache-specific
+}
+
 type Config struct {
 	System     *System    `yaml:"system"`
+	Cache      Cache      `yaml:"cache"` // Cache configuration
 	Repository Repository `yaml:"repository"`
 }
 

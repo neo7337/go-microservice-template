@@ -5,6 +5,15 @@ system:
   version: "1.0"
   description: "A Go microservice template with PostgreSQL integration"
   timezone: "UTC"
+cache:
+  enabled: true
+  type: "redis"
+  config:
+    host: "redis-container"
+    port: 6379
+    password: ""
+    db: 2
+    ttl: 300 # Time to live in seconds (300seconds = 5 minutes)
 repository:
   providers:
     - name: "postgres"
