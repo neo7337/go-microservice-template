@@ -1,0 +1,16 @@
+{
+    "format": "text",
+    "async": false,
+    "defaultLvl": "DEBUG",
+    "includeFunction": true,
+    "includeLineNum": true,
+    "pkgConfigs": [],
+    "writers": [
+        {
+            "console": {
+                "errToStdOut": true,
+                "warnToStdOut": false
+            }
+        }
+    ]
+}

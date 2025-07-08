@@ -21,11 +21,18 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 WORKDIR /app
 
+COPY go-microservice-template/config-local.yml ./config-local.yml
+COPY go-microservice-template/log-config.json ./log-config.json
+
 # Copy the binary from the builder
 COPY --from=builder /app/microservice .
 
 # Change ownership and permissions
 RUN chown appuser:appgroup /app/microservice
+
+# Install curl for healthcheck
+USER root
+RUN apk add --no-cache curl
 
 # Switch to non-root user
 USER appuser
