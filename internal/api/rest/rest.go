@@ -14,6 +14,7 @@ func GetRestServer(manager lifecycle.ComponentManager) lifecycle.Component {
 	conf := config.GetConfig()
 	serverOptions := rest.DefaultSrvOptions()
 	serverOptions.PathPrefix = "/api"
+	serverOptions.ListenHost = conf.System.Host
 	serverOptions.ListenPort = int16(conf.System.Port)
 	serverOptions.ReadTimeout = int64(conf.System.ReadTimeout)   // seconds
 	serverOptions.WriteTimeout = int64(conf.System.WriteTimeout) // seconds
